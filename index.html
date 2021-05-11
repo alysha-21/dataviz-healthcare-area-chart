@@ -138,6 +138,7 @@
         ]
 
         let year_state = 2020;
+        
 
         let d2020 = data.filter(d => d.year == 2020)
         let d2009 = data.filter(d => d.year == 2009)
@@ -146,7 +147,8 @@
         console.log({d2009})
 
     //     //https://github.com/d3/d3-shape#stacks
-        let series2020 = d3.stack().keys(sel_cols)(d2020);
+        let series2020 = d3.stack().keys(sel_cols)(d2020)
+        let series2009 = d3.stack().keys(sel_cols)(d2009);
 
     //     // https://github.com/d3/d3-scale#ordinal-scales
         let color = d3.scaleOrdinal()
@@ -214,7 +216,7 @@
         }
 
             var t = d3.transition() //https://github.com/d3/d3-transition
-                .duration(500)
+                .duration(100)
 
 
     //     //labelling 
