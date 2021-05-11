@@ -148,8 +148,6 @@
     //     //https://github.com/d3/d3-shape#stacks
         let series2020 = d3.stack().keys(sel_cols)(d2020);
 
-        console.log({series2020})
-
     //     // https://github.com/d3/d3-scale#ordinal-scales
         let color = d3.scaleOrdinal()
             .domain(sel_cols)
@@ -160,7 +158,8 @@
             .range([margin.left, width])
 
         let y = d3.scaleLinear()
-            .domain(d2020.map(d => d.Percentile).reverse())
+            .domain([0, 1])
+            // .domain(d2020.map(d => d.Percentile).reverse())
             .range([height - margin.bottom, margin.top])
 
     //     //https://github.com/d3/d3-shape#areas
@@ -210,7 +209,7 @@
             } else {
                 year_state = 2020
                 button.html("Switch to 2009")
-                hed.html("Healcare by income in <span class='highlight'>2020</span>")
+                hed.html("Healthcare by income in <span class='highlight'>2020</span>")
             }
         }
 
