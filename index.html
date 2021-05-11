@@ -63,14 +63,29 @@
             max-width: 1000px;
             margin: 0 auto;
         }
+
+        .change-btn {
+            margin: 10px 0 0 30px;
+            width: 200px;
+            height: 30px;
+            font-size:large;
+            cursor: pointer;
+        }
+
+        .highlight {
+            color: purple;
+            text-decoration:underline;
+        }
     </style>
 </head>
 
 <body>
     <div class="chart-container">
         <h1 class="headline">
-            Healthcare by income in 2020
+            Healthcare by income in <span class="highlight">2020</span>
         </h1>
+
+        <button class="change-btn">Switch to 2009</button>
 
         <svg width="1050px" height="575px">
         </svg>
@@ -122,9 +137,13 @@
             "#E0E0E0"  // "Other"
         ]
 
+        let year_state = 2020;
+
         let d2020 = data.filter(d => d.year == 2020)
+        let d2009 = data.filter(d => d.year == 2009)
 
         console.log({d2020})
+        console.log({d2009})
 
     //     //https://github.com/d3/d3-shape#stacks
         let series2020 = d3.stack().keys(sel_cols)(d2020);
@@ -141,7 +160,7 @@
             .range([margin.left, width])
 
         let y = d3.scaleLinear()
-            .domain([0, 1])
+            .domain(d2020.map(d => d.Percentile).reverse())
             .range([height - margin.bottom, margin.top])
 
     //     //https://github.com/d3/d3-shape#areas
@@ -175,6 +194,29 @@
             .attr("class", "y axis")
             .call(yAxisSettings)
             .call(g => g.selectAll(".domain").remove())
+
+        let button = d3.select(".change-btn").on("click", update)
+
+        let hed = d3.select(".headline")
+
+        function update() {
+
+            if (year_state == 2020) {
+                year_state = 2009
+                button.html("Switch to 2020")
+                hed.html("Healthcare by income in 2009")
+                hed.html("Healthcare by income in <span class='highlight'>2009</span>")
+
+            } else {
+                year_state = 2020
+                button.html("Switch to 2009")
+                hed.html("Healcare by income in <span class='highlight'>2020</span>")
+            }
+        }
+
+            var t = d3.transition() //https://github.com/d3/d3-transition
+                .duration(500)
+
 
     //     //labelling 
         svg.append("g")
